@@ -28,39 +28,40 @@ export function SignIn() {
     }
 
     return (
-        <Container>
-            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-                <Content>
+      <Container>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
+        >
+          <Content>
+            <Brand source={brandImg} />
 
-                    <Brand source={brandImg} />
+            <Title>Login</Title>
+            <Input
+              placeholder="E-mail"
+              type="secondary"
+              autoCorrect={false}
+              autoCapitalize="none"
+              onChangeText={setEmail}
+            />
+            <Input
+              placeholder="Senha"
+              type="secondary"
+              secureTextEntry
+              onChangeText={setPassword}
+            />
 
-                    <Title>Login</Title>
-                    <Input 
-                        placeholder="E-mail"
-                        type="secondary"
-                        autoCorrect={false}
-                        autoCapitalize='none'
-                        onChangeText={setEmail}
-                    />
-                    <Input 
-                        placeholder="Senha"
-                        type="secondary"
-                        secureTextEntry
-                        onChangeText={setPassword}
-                    />
+            <ForgotPasswordButton>
+              <ForgotPasswordLabel>Esqueci minha senha</ForgotPasswordLabel>
+            </ForgotPasswordButton>
 
-                    <ForgotPasswordButton>
-                        <ForgotPasswordLabel>Esqueci minha senha</ForgotPasswordLabel>
-                    </ForgotPasswordButton>
-
-                    <Button 
-                        title="Entrar"
-                        type="secondary"
-                        onPress={handleSignIn}
-                        isLoading={isLogging}
-                    />
-                </Content>
-            </KeyboardAvoidingView>
-        </Container>
+            <Button
+              title="Entrar"
+              type="secondary"
+              onPress={handleSignIn}
+              isLoading={isLogging}
+            />
+          </Content>
+        </KeyboardAvoidingView>
+      </Container>
     );
 }

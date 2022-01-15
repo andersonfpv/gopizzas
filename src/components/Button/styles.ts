@@ -7,7 +7,7 @@ type ContainerProps = {
     type: TypeProps;
 }
 
-export const Container = styled(RectButton) <ContainerProps>`
+export const Container = styled(RectButton)<ContainerProps>`
     flex: 1;
     max-height: 56px;
     min-height: 56px;
