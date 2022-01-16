@@ -87,6 +87,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       .finally(() => setIsLogging(false));
   }
 
+
   async function loadUserStorageData() {
     setIsLogging(true);
 
