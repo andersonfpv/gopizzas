@@ -12,19 +12,20 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 type User = {
-    id: string;
-    name: string;
-    isAdmin: boolean;
+  id: string;
+  name: string;
+  isAdmin: boolean;
 }
 
 type AuthContextData = {
-    signIn: (email: string, password: string) => Promise<void>;
-    isLogging: boolean;
-    user: User | null;
+  signIn: (email: string, password: string) => Promise<void>;
+  signOut: () => Promise<void>;
+  isLogging: boolean;
+  user: User | null;
 }
 
 type AuthProviderProps = {
-    children: ReactNode;
+  children: ReactNode;
 }
 
 const USER_COLLECTION = '@gopizzas:users';
@@ -99,6 +100,12 @@ function AuthProvider({ children }: AuthProviderProps) {
     setIsLogging(false);
   }
 
+  async function signOut() {
+    await auth().signOut();
+    await AsyncStorage.removeItem(USER_COLLECTION);
+    setUser(null);
+  } 
+
   useEffect(() => {
     loadUserStorageData();
   }, []);
@@ -108,6 +115,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       value={{
         user,
         signIn,
+        signOut,
         isLogging,
       }}
     >
