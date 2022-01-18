@@ -16,7 +16,7 @@ export function InputPrice({ size, ...rest }: Props) {
 
             <Label>R$</Label>
 
-            <Input KeyboardType="numeric" {...rest} />
+            <Input keyboardType="numeric" {...rest} />
         </Container>
     );
 }
