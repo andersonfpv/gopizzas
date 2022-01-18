@@ -46,7 +46,7 @@ export function Product() {
             </Header>
 
             <Upload>
-                <Photo uri="" />
+                <Photo uri={image} />
                 <PickImageButton 
                     title="Carregar" 
                     type="secondary"
