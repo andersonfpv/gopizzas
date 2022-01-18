@@ -3,6 +3,7 @@ import { Platform, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
 import { ButtonBack } from '@components/ButtonBack';
+import { InputPrice } from '@components/InputPrice';
 import { Photo } from '@components/Photo';
 
 import { 
@@ -52,6 +53,10 @@ export function Product() {
                     onPress={handlePickerImage}
                 />
             </Upload>
+
+            <InputPrice size="P"/>
+            <InputPrice size="M"/>
+            <InputPrice size="G"/>
 
         </Container>
     )
