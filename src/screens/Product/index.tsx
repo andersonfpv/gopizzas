@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Platform, TouchableOpacity } from 'react-native';
+import { Platform, TouchableOpacity, ScrollView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
 import { ButtonBack } from '@components/ButtonBack';
 import { InputPrice } from '@components/InputPrice';
+import { Button } from '@components/Button';
+import { Input } from '@components/Input';
 import { Photo } from '@components/Photo';
 
 import { 
@@ -12,7 +14,12 @@ import {
     Title, 
     DeleteLabel,
     Upload, 
-    PickImageButton 
+    PickImageButton,
+    Form,
+    Label,
+    InputGroup,
+    InputGroupHeader,
+    MaxChacacters 
 } from './styles';
 
 export function Product() {
@@ -35,29 +42,58 @@ export function Product() {
 
     return (
         <Container behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-            <Header>
-                <ButtonBack />
+            <ScrollView showsVerticalScrollIndicator={false}>
 
-                <Title>Cadastrar</Title>
-                
-                <TouchableOpacity>
-                    <DeleteLabel>Deletar</DeleteLabel>
-                </TouchableOpacity>
-            </Header>
+                <Header>
+                    <ButtonBack />
 
-            <Upload>
-                <Photo uri={image} />
-                <PickImageButton 
-                    title="Carregar" 
-                    type="secondary"
-                    onPress={handlePickerImage}
-                />
-            </Upload>
+                    <Title>Cadastrar</Title>
+                    
+                    <TouchableOpacity>
+                        <DeleteLabel>Deletar</DeleteLabel>
+                    </TouchableOpacity>
+                </Header>
 
-            <InputPrice size="P"/>
-            <InputPrice size="M"/>
-            <InputPrice size="G"/>
+                <Upload>
+                    <Photo uri={image} />
+                    <PickImageButton 
+                        title="Carregar" 
+                        type="secondary"
+                        onPress={handlePickerImage}
+                    />
+                </Upload>
 
+                <Form>
+
+                    <InputGroup>
+                        <InputGroupHeader>
+                            <Label>Descrição</Label>
+                            <MaxChacacters>0 de 60 caracteres</MaxChacacters>
+                        </InputGroupHeader>
+
+                        <Input
+                            multiline
+                            maxLength={60}
+                            style={{ height: 80 }}
+                        />
+                    </InputGroup>
+
+                    <InputGroup>
+                        <Label>Nome</Label>
+                        <Input />
+                    </InputGroup>
+
+                    <InputGroup>
+                        <Label>Tamanhos e preços</Label>
+
+                        <InputPrice size="P"/>
+                        <InputPrice size="M"/>
+                        <InputPrice size="G"/>
+                    </InputGroup>
+
+                    <Button title="Cadastrar pizza" />
+                </Form>
+            </ScrollView>
         </Container>
     )
 }
