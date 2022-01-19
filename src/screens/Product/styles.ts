@@ -4,7 +4,7 @@ import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { Button } from '@components/Button';
 
 export const Container = styled.KeyboardAvoidingView`
-    /* flex: 1; */
+    flex: 1;
     background-color: ${({ theme }) => theme.COLORS.BACKGROUND};
 `;
 
