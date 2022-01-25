@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
-import { Alert, TouchableOpacity } from 'react-native';
+import { Alert, TouchableOpacity, FlatList } from 'react-native';
 import { useTheme } from 'styled-components/native';
 import firestore from '@react-native-firebase/firestore';
 
@@ -21,7 +21,7 @@ import {
  } from './styles';
 
 export function Home(){
-
+    const [pizzas, setPizzas] = useState<ProductProps[]>([]);
     const { COLORS } = useTheme();
 
     function fetchPizzas(value: string) {
@@ -41,7 +41,7 @@ export function Home(){
                   }
               }) as ProductProps[];
 
-              console.log(data);
+              setPizzas(data);
           })
           .catch(() => Alert.alert('Consulta', 'Não foi possível realizar a consulta'));
     }
@@ -50,33 +50,37 @@ export function Home(){
         fetchPizzas('');
     }, [])
 
-    return(
-        <Container>
-            <Header>
-                <Greeting>
-                    <GreetingEmoji source={happyEmoji} />
-                    <GreetingText>Olá, Admin</GreetingText>
-                </Greeting>
+    return (
+      <Container>
+        <Header>
+          <Greeting>
+            <GreetingEmoji source={happyEmoji} />
+            <GreetingText>Olá, Admin</GreetingText>
+          </Greeting>
 
-                <TouchableOpacity>
-                    <MaterialIcons name="logout" color={COLORS.TITLE} size={24} />
-                </TouchableOpacity>
-            </Header>
+          <TouchableOpacity>
+            <MaterialIcons name="logout" color={COLORS.TITLE} size={24} />
+          </TouchableOpacity>
+        </Header>
 
-            <Search onSearch={() => { }} onClear={() => { }} />
+        <Search onSearch={() => {}} onClear={() => {}} />
 
-            <MenuHeader>
-                <Title>Cardápio</Title>
-                <MenuItemsNumber>10 pizzas</MenuItemsNumber>
-            </MenuHeader>
+        <MenuHeader>
+          <Title>Cardápio</Title>
+          <MenuItemsNumber>10 pizzas</MenuItemsNumber>
+        </MenuHeader>
 
-            <ProductCard data={{ 
-                id: '1', 
-                name: 'Pizza', 
-                description: 'Queijo, tomate, oregano', 
-                photo_url: 'https://github.com/andersonfpv.png' 
-            }} 
-            />
-        </Container>
+        <FlatList
+          data={pizzas}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <ProductCard data={item} />}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingTop: 20,
+            paddingBottom: 125,
+            marginHorizontal: 24
+          }}
+        />
+      </Container>
     );
 }
