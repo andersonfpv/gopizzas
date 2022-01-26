@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Platform, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { Platform, TouchableOpacity, ScrollView, Alert, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 import { ProductNavigationProps } from '@src/@types/navigation';
 
 import { ButtonBack } from '@components/ButtonBack';
@@ -46,6 +46,7 @@ export function Product() {
     const [isLoading, setIsLoading] = useState(false); 
     const [photoPath, setPhotoPath] = useState('');
 
+    const navigation = useNavigation();
     const route = useRoute();
     const { id } = route.params as ProductNavigationProps;
 
@@ -109,6 +110,10 @@ export function Product() {
         setIsLoading(false);
     }
 
+    function handleGoBack(){
+        navigation.goBack();
+    }    
+
     useEffect(() => {
         if(id) {
             firestore()
@@ -130,76 +135,86 @@ export function Product() {
     }, [id])
 
     return (
-        <Container behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-            <ScrollView showsVerticalScrollIndicator={false}>
+      <Container behavior={Platform.OS === "ios" ? "padding" : undefined}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Header>
+            <ButtonBack onPress={handleGoBack} />
 
-                <Header>
-                    <ButtonBack />
+            <Title>Cadastrar</Title>
 
-                    <Title>Cadastrar</Title>
-                    
-                    <TouchableOpacity>
-                        <DeleteLabel>Deletar</DeleteLabel>
-                    </TouchableOpacity>
-                </Header>
+            {
+                id ?
+                <TouchableOpacity>
+                    <DeleteLabel>Deletar</DeleteLabel>
+                </TouchableOpacity>
 
-                <Upload>
-                    <Photo uri={image} />
-                    <PickImageButton 
-                        title="Carregar" 
-                        type="secondary"
-                        onPress={handlePickerImage}
-                    />
-                </Upload>
+                : <View style={{ width: 20 }}/>
+            }
+            
+          </Header>
 
-                <Form>
-                    <InputGroup>
-                        <Label>Nome</Label>
-                        <Input 
-                            onChangeText={setName} 
-                            value={name} 
-                        />
-                    </InputGroup>
+          <Upload>
+            <Photo uri={image} />
 
-                    <InputGroup>
-                        <InputGroupHeader>
-                            <Label>Descrição</Label>
-                            <MaxChacacters>0 de 60 caracteres</MaxChacacters>
-                        </InputGroupHeader>
+            {!id && (
+              <PickImageButton
+                title="Carregar"
+                type="secondary"
+                onPress={handlePickerImage}
+              />
+            )}
+          </Upload>
 
-                        <Input
-                            multiline
-                            maxLength={60}
-                            style={{ height: 80 }}
-                            onChangeText={setDescription} 
-                            value={description}
-                        />
-                    </InputGroup>
+          <Form>
+            <InputGroup>
+              <Label>Nome</Label>
+              <Input onChangeText={setName} value={name} />
+            </InputGroup>
 
-                    <InputGroup>
-                        <Label>Tamanhos e preços</Label>
+            <InputGroup>
+              <InputGroupHeader>
+                <Label>Descrição</Label>
+                <MaxChacacters>0 de 60 caracteres</MaxChacacters>
+              </InputGroupHeader>
 
-                        <InputPrice size="P"
-                            onChangeText={setPriceSizeP} 
-                            value={priceSizeP}
-                        />
-                        <InputPrice size="M"
-                            onChangeText={setPriceSizeM} 
-                            value={priceSizeM}
-                        />
-                        <InputPrice size="G"
-                            onChangeText={setPriceSizeG} 
-                            value={priceSizeG}
-                        />
-                    </InputGroup>
+              <Input
+                multiline
+                maxLength={60}
+                style={{ height: 80 }}
+                onChangeText={setDescription}
+                value={description}
+              />
+            </InputGroup>
 
-                    <Button 
-                        title="Cadastrar pizza"
-                        isLoading={isLoading}
-                        onPress={handleAdd}
-                    />
-                </Form>
-            </ScrollView>
-        </Container>
-    )
+            <InputGroup>
+              <Label>Tamanhos e preços</Label>
+
+              <InputPrice
+                size="P"
+                onChangeText={setPriceSizeP}
+                value={priceSizeP}
+              />
+              <InputPrice
+                size="M"
+                onChangeText={setPriceSizeM}
+                value={priceSizeM}
+              />
+              <InputPrice
+                size="G"
+                onChangeText={setPriceSizeG}
+                value={priceSizeG}
+              />
+            </InputGroup>
+
+            {!id && (
+              <Button
+                title="Cadastrar Pizza"
+                isLoading={isLoading}
+                onPress={handleAdd}
+              />
+            )}
+          </Form>
+        </ScrollView>
+      </Container>
+    );
 }
