@@ -128,6 +128,23 @@ export function Product() {
         });
     }
 
+    function handleUpdate() {
+      firestore()
+        .collection("pizzas")
+        .doc(id)
+        .update({
+          name,
+          name_insensitive: name.toLowerCase().trim(),
+          description,
+          prices_sizes: {
+            p: priceSizeP,
+            m: priceSizeM,
+            g: priceSizeG,
+          },
+        })
+        .then(() => {navigation.navigate("home")});
+    }
+
     useEffect(() => {
         if(id) {
             firestore()
@@ -220,13 +237,21 @@ export function Product() {
               />
             </InputGroup>
 
-            {!id && (
+            {!id ?
               <Button
                 title="Cadastrar Pizza"
                 isLoading={isLoading}
                 onPress={handleAdd}
               />
-            )}
+
+              :
+
+              <Button
+                title="Atualizar Cadastro"
+                isLoading={isLoading}
+                onPress={handleUpdate}
+              />
+            }
           </Form>
         </ScrollView>
       </Container>
