@@ -3,7 +3,7 @@ import { Platform } from "react-native";
 
 import { ButtonBack } from "@components/ButtonBack";
 
-import { Container, Header } from "./styles";
+import { Container, Header, Photo } from "./styles";
 
 export function Order() {
     return (
@@ -14,6 +14,8 @@ export function Order() {
                     style={{ marginBottom: 108 }}
                 />
             </Header>
+
+            <Photo source={{ uri: 'http://github.com/andersonfpv.png' }} />
         </Container>
     );
 }
