@@ -9,7 +9,7 @@ import { AuthProvider } from "@hooks/auth";
 import theme from "./src/theme";
 
 import { Routes } from "./src/routes";
-import { Order } from "@screens/Order";
+import { Orders } from "@screens/Orders";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function App() {
@@ -28,7 +28,7 @@ export default function App() {
         <StatusBar style="light" translucent backgroundColor="transparent" />
 
         <AuthProvider>
-          <Order />
+          <Orders />
         </AuthProvider>
       </ThemeProvider>
     </GestureHandlerRootView>
